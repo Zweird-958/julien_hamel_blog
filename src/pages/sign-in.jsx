@@ -44,7 +44,7 @@ const SignUp = () => {
       >
         {error && (
           <Alert
-            variant="error"
+            variant="danger"
             message={getErrorMessage(error)}
             className="w-full"
           />

@@ -2,7 +2,7 @@ import { CheckIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline"
 
 const clsx = require("clsx")
 const variants = {
-  error: "bg-danger text-danger",
+  danger: "bg-danger text-danger",
   success: "bg-success text-success",
 }
 const Alert = (props) => {

@@ -1,5 +1,6 @@
 import config from "@/api/config"
 import BaseModel from "@/db/models/BaseModel"
+import PostModel from "@/db/models/PostModel"
 import UserModel from "@/db/models/UserModel"
 import knex from "knex"
 
@@ -23,6 +24,7 @@ export const createContext = ({ req, res, next, requestId }) => {
     db,
     models: {
       UserModel,
+      PostModel,
     },
   }
 }
