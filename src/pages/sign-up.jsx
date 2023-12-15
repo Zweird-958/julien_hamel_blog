@@ -9,7 +9,7 @@ import { useRouter } from "next/router"
 
 const SignUp = () => {
   const router = useRouter()
-  const { mutate, error } = useMutation({
+  const { mutate, error, isPending } = useMutation({
     mutationFn: (data) => createResource("users", data),
   })
   const onSubmit = (crendentials) => {
@@ -26,6 +26,7 @@ const SignUp = () => {
         schema={signUpSchema}
         defaultValues={{ username: "", email: "", password: "" }}
         onSubmit={onSubmit}
+        isLoading={isPending}
         title="Sign Up"
         fields={[
           { label: "Username", name: "username" },

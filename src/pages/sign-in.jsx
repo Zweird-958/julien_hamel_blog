@@ -12,7 +12,7 @@ import { useContext } from "react"
 const SignUp = () => {
   const router = useRouter()
   const { signIn } = useContext(SessionContext)
-  const { mutate, error } = useMutation({
+  const { mutate, error, isPending } = useMutation({
     mutationFn: (data) => createResource("sessions", data),
   })
   const onSubmit = (credentials) => {
@@ -33,6 +33,7 @@ const SignUp = () => {
     <CenterDiv>
       <Form
         schema={singInSchema}
+        isLoading={isPending}
         defaultValues={{ email: "", password: "" }}
         onSubmit={onSubmit}
         title="Sign In"

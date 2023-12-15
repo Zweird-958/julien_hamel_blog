@@ -12,6 +12,7 @@ const Form = (props) => {
     title,
     fields = [],
     children,
+    isLoading,
   } = props
   const { handleSubmit, control } = useForm({
     resolver: zodResolver(schema),
@@ -28,7 +29,11 @@ const Form = (props) => {
         <FormField key={fieldProps.name} {...fieldProps} control={control} />
       ))}
       {children}
-      <Button type="submit" className="w-full font-semibold">
+      <Button
+        isLoading={isLoading}
+        type="submit"
+        className="w-full font-semibold justify-center"
+      >
         {title}
       </Button>
     </form>
