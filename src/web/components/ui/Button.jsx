@@ -1,3 +1,4 @@
+import { ArrowPathIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 
 const variants = {
@@ -23,18 +24,23 @@ const Button = (props) => {
     variant = "fill",
     color = "primary",
     className,
+    children,
+    isLoading,
     ...otherProps
   } = props
 
   return (
     <Component
       className={clsx(
-        "px-4 py-2 rounded-lg border-2",
+        "px-4 py-2 rounded-lg border-2 flex gap-2",
         variants[color][variant],
         className,
       )}
       {...otherProps}
-    />
+    >
+      {isLoading && <ArrowPathIcon className="w-6 animate-spin" />}
+      {children}
+    </Component>
   )
 }
 
