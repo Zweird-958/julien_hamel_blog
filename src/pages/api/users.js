@@ -46,7 +46,7 @@ const handler = mw({
   GET: [
     auth,
     admin,
-    async ({ send, models: { UserModel } }) => {
+    async ({ send, models: { UserModel }, user: { id } }) => {
       const users = await UserModel.query()
         .select(
           "username",
@@ -56,6 +56,7 @@ const handler = mw({
           "deletedAt",
           "id",
         )
+        .where("id", "!=", id)
         .withGraphFetched("role")
 
       await send(users)
