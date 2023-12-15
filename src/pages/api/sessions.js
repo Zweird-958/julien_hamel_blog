@@ -1,17 +1,17 @@
 import config from "@/api/config"
+import { AVERAGE_PASSWORD_HASHING_DURATION } from "@/api/constants"
 import { HttpAuthenticationError } from "@/api/errors"
+import auth from "@/api/middlewares/auth"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import genCookies from "@/api/utils/genCookies"
 import hashPassword from "@/db/hashPassword"
-import { AVERAGE_PASSWORD_HASHING_DURATION } from "@/api/constants"
 import sleep from "@/utils/sleep"
 import { emailValidator } from "@/utils/validators"
 import webConfig from "@/web/config"
 import jsonwebtoken from "jsonwebtoken"
 import ms from "ms"
 import { z } from "zod"
-import auth from "@/api/middlewares/auth"
 
 const handle = mw({
   POST: [
@@ -27,7 +27,9 @@ const handle = mw({
       input: { email, password },
       models: { UserModel },
     }) => {
-      const user = await UserModel.query().findOne({ email })
+      const user = await UserModel.query()
+        .withGraphFetched("role")
+        .findOne({ email })
 
       if (!user) {
         await sleep(AVERAGE_PASSWORD_HASHING_DURATION)
@@ -46,6 +48,8 @@ const handle = mw({
           payload: {
             user: {
               id: user.id,
+              username: user.username,
+              role: user.role.name,
             },
           },
         },

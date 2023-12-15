@@ -28,7 +28,9 @@ export class HttpArgumentsError extends HttpPublicError {
     super(
       !errors
         ? "Invalid arguments."
-        : `Invalid arguments:\n\t${errors.join("\n\t")}`.trim(),
+        : `Invalid arguments:\n\t${errors
+            .map(({ path }) => path)
+            .join("\n\t")}`.trim(),
     )
   }
 }

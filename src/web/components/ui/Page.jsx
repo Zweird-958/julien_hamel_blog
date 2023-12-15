@@ -8,7 +8,7 @@ const Page = (props) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center shadow-sm py-2 z-10">
+      <div className="flex justify-center shadow-sm py-2 z-10 px-4">
         <div className="max-w-2xl w-full flex justify-between items-center">
           <Link className="text-xl" href="/">
             Blog
@@ -28,9 +28,16 @@ const Page = (props) => {
               </Button>
             </div>
           ) : (
-            <Button color="danger" onClick={signOut}>
-              Sign Out
-            </Button>
+            <div className="flex gap-2">
+              {session.user.role === "admin" && (
+                <Button as={Link} href="/admin">
+                  Dashboard
+                </Button>
+              )}
+              <Button color="danger" onClick={signOut}>
+                Sign Out
+              </Button>
+            </div>
           )}
         </div>
       </div>
