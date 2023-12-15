@@ -20,6 +20,13 @@ const handler = mw({
       send(post)
     },
   ],
+  GET: [
+    async ({ send, models: { PostModel } }) => {
+      const posts = await PostModel.query().orderBy("updatedAt", "desc")
+
+      send(posts)
+    },
+  ],
 })
 
 export default handler
