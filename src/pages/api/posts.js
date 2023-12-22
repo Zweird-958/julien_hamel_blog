@@ -3,6 +3,8 @@ import author from "@/api/middlewares/author"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { createPostSchema } from "@/utils/schemas"
+import { pageValidator } from "@/utils/validators"
+import { z } from "zod"
 
 const handler = mw({
   POST: [
@@ -27,12 +29,21 @@ const handler = mw({
     },
   ],
   GET: [
-    async ({ send, models: { PostModel } }) => {
-      const posts = await PostModel.query()
+    validate({
+      query: z.object({
+        page: pageValidator,
+      }),
+    }),
+    async ({ send, models: { PostModel }, input: { page } }) => {
+      const query = PostModel.query()
+      const posts = await query
+        .clone()
         .withGraphFetched("author")
         .orderBy("updatedAt", "desc")
+        .page(page)
+      const [{ count }] = await query.clone().count()
 
-      send(posts)
+      send(posts, { count })
     },
   ],
 })

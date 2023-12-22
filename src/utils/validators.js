@@ -17,3 +17,4 @@ export const contentValidator = z
   .string()
   .min(1, { message: "Content is required" })
 export const idValidator = z.string()
+export const pageValidator = z.string().default("1").optional()

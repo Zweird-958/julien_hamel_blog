@@ -15,8 +15,6 @@ const handler = mw({
         .withGraphFetched("author")
         .findOne({ id: postId })
 
-      console.log(post)
-
       send(post)
     },
   ],
