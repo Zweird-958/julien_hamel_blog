@@ -11,10 +11,16 @@ const handler = mw({
     validate({
       body: createPostSchema,
     }),
-    async ({ send, input: { title, content }, models: { PostModel } }) => {
+    async ({
+      send,
+      input: { title, content },
+      models: { PostModel },
+      user,
+    }) => {
       const post = await PostModel.query().insert({
         title,
         content,
+        authorId: user.id,
       })
 
       send(post)
@@ -22,7 +28,9 @@ const handler = mw({
   ],
   GET: [
     async ({ send, models: { PostModel } }) => {
-      const posts = await PostModel.query().orderBy("updatedAt", "desc")
+      const posts = await PostModel.query()
+        .withGraphFetched("author")
+        .orderBy("updatedAt", "desc")
 
       send(posts)
     },

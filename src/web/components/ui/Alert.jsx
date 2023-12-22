@@ -16,7 +16,7 @@ const Alert = (props) => {
         className,
       )}
     >
-      {variant === "error" ? (
+      {variant === "danger" ? (
         <ExclamationCircleIcon className="w-6 text-danger" />
       ) : (
         <CheckIcon className="w-6 text-success" />

@@ -1,6 +1,6 @@
 export const up = async (db) => {
   await db.schema.createTable("users", (table) => {
-    table.uuid("id").defaultTo(db.fn.uuid())
+    table.uuid("id").defaultTo(db.fn.uuid()).primary()
     table.text("username").notNullable().unique()
     table.text("email").notNullable().unique()
     table.text("passwordHash").notNullable()

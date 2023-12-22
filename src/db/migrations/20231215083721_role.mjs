@@ -1,6 +1,6 @@
 export const up = async (db) => {
   await db.schema.createTable("roles", (table) => {
-    table.increments("id")
+    table.increments("id").primary()
     table.enum("name", ["user", "author", "admin"]).notNullable().unique()
   })
 

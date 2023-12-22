@@ -16,3 +16,4 @@ export const titleValidator = z
 export const contentValidator = z
   .string()
   .min(1, { message: "Content is required" })
+export const idValidator = z.string()
