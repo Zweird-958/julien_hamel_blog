@@ -3,7 +3,7 @@ import author from "@/api/middlewares/author"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { createPostSchema } from "@/utils/schemas"
-import { pageValidator } from "@/utils/validators"
+import { idValidator, pageValidator } from "@/utils/validators"
 import { z } from "zod"
 
 const handler = mw({
@@ -32,10 +32,13 @@ const handler = mw({
     validate({
       query: z.object({
         page: pageValidator,
+        authorId: idValidator.optional(),
       }),
     }),
-    async ({ send, models: { PostModel }, input: { page } }) => {
-      const query = PostModel.query()
+    async ({ send, models: { PostModel }, input: { page, authorId } }) => {
+      const query = authorId
+        ? PostModel.query().where("authorId", authorId)
+        : PostModel.query()
       const posts = await query
         .clone()
         .withGraphFetched("author")

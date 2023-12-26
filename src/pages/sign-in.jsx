@@ -3,9 +3,8 @@ import SessionContext from "@/web/components/SessionContext"
 import Alert from "@/web/components/ui/Alert"
 import CenterDiv from "@/web/components/ui/CenterDiv"
 import Form from "@/web/components/ui/Form"
-import { createResource } from "@/web/services/apiClient"
+import useMutation from "@/web/hooks/useMutation"
 import getErrorMessage from "@/web/utils/getErrorMessage"
-import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 import { useContext } from "react"
 
@@ -13,7 +12,7 @@ const SignUp = () => {
   const router = useRouter()
   const { signIn } = useContext(SessionContext)
   const { mutate, error, isPending } = useMutation({
-    mutationFn: (data) => createResource("sessions", data),
+    endpoint: "sessions",
   })
   const onSubmit = (credentials) => {
     mutate(credentials, {

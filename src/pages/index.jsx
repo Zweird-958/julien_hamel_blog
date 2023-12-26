@@ -1,8 +1,9 @@
 import { pageValidator } from "@/utils/validators"
+import Card from "@/web/components/ui/Card"
 import Link from "@/web/components/ui/Link"
 import Pagination from "@/web/components/ui/Pagination"
 import config from "@/web/config"
-import useCustomQuery from "@/web/hooks/useCustomQuery"
+import useQuery from "@/web/hooks/useQuery"
 
 export const getServerSideProps = ({ query: { page } }) => ({
   props: {
@@ -12,8 +13,11 @@ export const getServerSideProps = ({ query: { page } }) => ({
 const Home = (props) => {
   const { page } = props
   const {
-    data: { data: { result: posts = [], meta: { count } = {} } = {} } = {},
-  } = useCustomQuery({
+    data: {
+      result: posts,
+      meta: { count },
+    },
+  } = useQuery({
     endpoint: "posts",
     params: {
       page,
@@ -25,14 +29,14 @@ const Home = (props) => {
     <div className="flex flex-col items-center">
       <div className="flex flex-col gap-4 max-w-md w-full">
         {posts.map(({ id, title, content, author: { username } }) => (
-          <div key={id} className="bg-card flex flex-col gap-2 px-4 py-2">
+          <Card key={id}>
             <h2 className="text-xl border-b-2">{title}</h2>
             <p>{content}</p>
             <div className="flex justify-between">
               <Link href={`/posts/${id}`}>See more</Link>
-              <Link href={`user/${username}`}>{username}</Link>
+              <p>{username}</p>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
       <Pagination page={parseInt(page, 10)} countPages={countPages} />

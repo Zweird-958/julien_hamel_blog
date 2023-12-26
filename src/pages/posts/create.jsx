@@ -2,13 +2,12 @@ import { createPostSchema } from "@/utils/schemas"
 import Alert from "@/web/components/ui/Alert"
 import CenterDiv from "@/web/components/ui/CenterDiv"
 import Form from "@/web/components/ui/Form"
-import { createResource } from "@/web/services/apiClient"
+import useMutation from "@/web/hooks/useMutation"
 import getErrorMessage from "@/web/utils/getErrorMessage"
-import { useMutation } from "@tanstack/react-query"
 
 const CreatePost = () => {
   const { mutate, error, isSuccess, isPending } = useMutation({
-    mutationFn: (data) => createResource("posts", data),
+    endpoint: "posts",
   })
   const onSubmit = (data) => {
     mutate(data)

@@ -19,11 +19,14 @@ export const SessionContextProvider = (props) => {
 
     setSession(payload)
   }, [])
-  const signOut = useCallback(async () => {
-    await deleteResource("sessions")
+  const clearSession = useCallback(() => {
     localStorage.removeItem(config.security.session.cookie.key)
     setSession(null)
   }, [])
+  const signOut = useCallback(async () => {
+    await deleteResource("sessions")
+    clearSession()
+  }, [clearSession])
 
   useEffect(() => {
     const jwt = localStorage.getItem(config.security.session.cookie.key)
@@ -37,7 +40,10 @@ export const SessionContextProvider = (props) => {
   }, [])
 
   return (
-    <SessionContext.Provider {...props} value={{ session, signIn, signOut }} />
+    <SessionContext.Provider
+      {...props}
+      value={{ session, signIn, signOut, clearSession }}
+    />
   )
 }
 const SessionContext = createContext()

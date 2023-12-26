@@ -2,15 +2,14 @@ import { signUpSchema } from "@/utils/schemas"
 import Alert from "@/web/components/ui/Alert"
 import CenterDiv from "@/web/components/ui/CenterDiv"
 import Form from "@/web/components/ui/Form"
-import { createResource } from "@/web/services/apiClient"
+import useMutation from "@/web/hooks/useMutation"
 import getErrorMessage from "@/web/utils/getErrorMessage"
-import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 
 const SignUp = () => {
   const router = useRouter()
   const { mutate, error, isPending } = useMutation({
-    mutationFn: (data) => createResource("users", data),
+    endpoint: "users",
   })
   const onSubmit = (crendentials) => {
     mutate(crendentials, {

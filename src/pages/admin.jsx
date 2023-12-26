@@ -2,19 +2,18 @@ import { useSession } from "@/web/components/SessionContext"
 import Alert from "@/web/components/ui/Alert"
 import CenterDiv from "@/web/components/ui/CenterDiv"
 import LoaderScreen from "@/web/components/ui/LoaderScreen"
-import { readResource } from "@/web/services/apiClient"
+import useQuery from "@/web/hooks/useQuery"
 import getErrorMessage from "@/web/utils/getErrorMessage"
-import { useQuery } from "@tanstack/react-query"
 
 const Admin = () => {
   const { session } = useSession()
   const {
-    data: { data: { result: users } = {} } = {},
+    data: { result: users },
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["admin", session],
-    queryFn: () => readResource("users"),
+    endpoint: "users",
+    keys: [session],
   })
 
   if (error) {

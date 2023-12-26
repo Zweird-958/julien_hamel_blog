@@ -1,4 +1,5 @@
 import {
+  commentValidator,
   contentValidator,
   emailValidator,
   passwordValidator,
@@ -17,4 +18,7 @@ export const signUpSchema = singInSchema.extend({
 export const createPostSchema = z.object({
   title: titleValidator,
   content: contentValidator,
+})
+export const commentSchema = z.object({
+  comment: commentValidator,
 })
