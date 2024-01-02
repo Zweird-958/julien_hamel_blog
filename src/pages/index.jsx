@@ -1,6 +1,5 @@
 import { pageValidator } from "@/utils/validators"
-import Card from "@/web/components/ui/Card"
-import Link from "@/web/components/ui/Link"
+import PostCard from "@/web/components/PostCard"
 import Pagination from "@/web/components/ui/Pagination"
 import config from "@/web/config"
 import useQuery from "@/web/hooks/useQuery"
@@ -28,15 +27,8 @@ const Home = (props) => {
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-col gap-4 max-w-md w-full">
-        {posts.map(({ id, title, content, author: { username } }) => (
-          <Card key={id}>
-            <h2 className="text-xl border-b-2">{title}</h2>
-            <p>{content}</p>
-            <div className="flex justify-between">
-              <Link href={`/posts/${id}`}>See more</Link>
-              <p>{username}</p>
-            </div>
-          </Card>
+        {posts.map((post) => (
+          <PostCard post={post} key={post.id} />
         ))}
       </div>
       <Pagination page={parseInt(page, 10)} countPages={countPages} />

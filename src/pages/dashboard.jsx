@@ -1,3 +1,4 @@
+import PostCard from "@/web/components/PostCard"
 import { useSession } from "@/web/components/SessionContext"
 import Card from "@/web/components/ui/Card"
 import useQuery from "@/web/hooks/useQuery"
@@ -17,6 +18,7 @@ const Dashboard = () => {
   const {
     data: {
       meta: { count: postsCount },
+      result: posts,
     },
   } = useQuery({
     endpoint: "posts",
@@ -35,6 +37,10 @@ const Dashboard = () => {
         <Card>
           <p>Posts count: {postsCount}</p>
         </Card>
+        <p>My posts</p>
+        {posts.map((post) => (
+          <PostCard post={post} key={post.id} />
+        ))}
       </div>
     </div>
   )
