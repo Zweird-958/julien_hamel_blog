@@ -31,9 +31,12 @@ const Page = (props) => {
             <div className="flex gap-2">
               {session.user.role === "admin" && (
                 <Button as={Link} href="/admin">
-                  Dashboard
+                  Admin Dashboard
                 </Button>
               )}
+              <Button as={Link} href="/dashboard">
+                Dashboard
+              </Button>
               <Button color="danger" onClick={signOut}>
                 Sign Out
               </Button>
