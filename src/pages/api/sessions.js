@@ -27,9 +27,10 @@ const handle = mw({
       input: { email, password },
       models: { UserModel },
     }) => {
+      const sanitizedEmail = email.toLowerCase()
       const user = await UserModel.query()
         .withGraphFetched("role")
-        .findOne({ email })
+        .findOne({ email: sanitizedEmail })
 
       if (!user) {
         await sleep(AVERAGE_PASSWORD_HASHING_DURATION)

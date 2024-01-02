@@ -16,6 +16,7 @@ const handler = mw({
       input: { username, email, password },
       models: { UserModel },
     }) => {
+      const sanitizedEmail = email.toLowerCase()
       const query = UserModel.query()
       const user = await query.clone().modify("insensitiveCase", username)
 
@@ -23,7 +24,7 @@ const handler = mw({
         throw new HttpDuplicateError("Username")
       }
 
-      const userByEmail = await query.clone().findOne({ email })
+      const userByEmail = await query.clone().findOne({ email: sanitizedEmail })
 
       if (userByEmail) {
         send(true)
@@ -35,7 +36,7 @@ const handler = mw({
 
       await query.clone().insert({
         username,
-        email,
+        email: sanitizedEmail,
         passwordHash,
         passwordSalt,
       })
