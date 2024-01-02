@@ -37,7 +37,7 @@ const Dashboard = () => {
         <Card>
           <p>Posts count: {postsCount}</p>
         </Card>
-        <p>My posts</p>
+        <p className="text-xl">My posts</p>
         {posts.map((post) => (
           <PostCard post={post} key={post.id} />
         ))}
