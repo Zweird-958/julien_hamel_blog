@@ -17,6 +17,11 @@ const variants = {
     bordered: "border-danger text-danger",
     empty: "text-danger",
   },
+  disabled: {
+    fill: "bg-disabled text-white border-disabled",
+    bordered: "border-disabled text-disabled",
+    empty: "text-disabled",
+  },
 }
 const Button = (props) => {
   const {
@@ -26,16 +31,18 @@ const Button = (props) => {
     className,
     children,
     isLoading,
+    disabled,
     ...otherProps
   } = props
 
   return (
     <Component
       className={clsx(
-        "px-4 py-2 rounded-lg border-2 flex gap-2",
-        variants[color][variant],
+        "px-4 py-2 rounded-lg border-2 flex gap-2 text-center items-center",
+        disabled ? variants.disabled[variant] : variants[color][variant],
         className,
       )}
+      disabled={disabled || isLoading}
       {...otherProps}
     >
       {isLoading && <ArrowPathIcon className="w-6 animate-spin" />}

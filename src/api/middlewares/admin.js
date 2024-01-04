@@ -1,11 +1,8 @@
 import { HttpForbiddenError } from "@/api/errors"
+import isAdmin from "@/utils/isAdmin"
 
 const admin = async ({ next, user }) => {
-  const {
-    role: { name: roleName },
-  } = user
-
-  if (roleName !== "admin") {
+  if (!isAdmin(user)) {
     throw new HttpForbiddenError()
   }
 

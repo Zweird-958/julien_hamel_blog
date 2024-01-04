@@ -16,9 +16,11 @@ const useMutation = ({
       params && Object.values(params),
       keys,
     ].flat(),
-    mutationFn: (data) =>
+    mutationFn: ({ queryId, ...data }) =>
       resourceActions[method](
-        `${endpoint}${queryString && `?${queryString}`}`,
+        `${endpoint}${queryId ? `/${queryId}` : ""}${
+          queryString ? `?${queryString}` : ""
+        }`,
         data,
       ),
     ...otherProps,

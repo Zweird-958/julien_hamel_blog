@@ -7,12 +7,12 @@ export default function App({ Component, pageProps }) {
   const queryClient = new QueryClient()
 
   return (
-    <SessionContextProvider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <SessionContextProvider>
         <Page>
           <Component {...pageProps} />
         </Page>
-      </QueryClientProvider>
-    </SessionContextProvider>
+      </SessionContextProvider>
+    </QueryClientProvider>
   )
 }

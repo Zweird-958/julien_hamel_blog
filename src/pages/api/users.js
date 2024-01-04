@@ -49,14 +49,7 @@ const handler = mw({
     admin,
     async ({ send, models: { UserModel }, user: { id } }) => {
       const users = await UserModel.query()
-        .select(
-          "username",
-          "email",
-          "createdAt",
-          "updatedAt",
-          "deletedAt",
-          "id",
-        )
+        .modify("format")
         .where("id", "!=", id)
         .withGraphFetched("role")
 

@@ -9,6 +9,16 @@ class UserModel extends BaseModel {
     insensitiveCase(query, username) {
       query.select().where(raw("LOWER(username)"), username.toLowerCase())
     },
+    format(query) {
+      query.select(
+        "username",
+        "email",
+        "createdAt",
+        "updatedAt",
+        "deletedAt",
+        "id",
+      )
+    },
   }
 
   static get relationMappings() {

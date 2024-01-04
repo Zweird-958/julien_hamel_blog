@@ -13,6 +13,7 @@ module.exports = {
         danger: "#F31260",
         success: "#17C964",
         card: "#fafafa",
+        disabled: "#E5E7EB",
       },
     },
   },

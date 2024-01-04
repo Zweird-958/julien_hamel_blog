@@ -7,6 +7,10 @@ class BaseQueryBuilder extends QueryBuilder {
       (page - 1) * config.pagination.limit,
     )
   }
+
+  softDelete(id) {
+    return this.updateAndFetchById(id, { deletedAt: new Date().toISOString() })
+  }
 }
 
 export default BaseQueryBuilder

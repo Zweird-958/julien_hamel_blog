@@ -1,5 +1,5 @@
 import config from "@/web/config"
-import { deleteResource } from "@/web/services/apiClient"
+import { useMutation } from "@tanstack/react-query"
 import jsonwebtoken from "jsonwebtoken"
 import {
   createContext,
@@ -12,6 +12,15 @@ import {
 export const useSession = () => useContext(SessionContext)
 export const SessionContextProvider = (props) => {
   const [session, setSession] = useState(null)
+  const clearSession = useCallback(() => {
+    localStorage.removeItem(config.security.session.cookie.key)
+    setSession(null)
+  }, [])
+  const { mutate } = useMutation({
+    endpoint: "sessions",
+    method: "delete",
+    onSettled: clearSession,
+  })
   const signIn = useCallback((jwt) => {
     localStorage.setItem(config.security.session.cookie.key, jwt)
 
@@ -19,14 +28,9 @@ export const SessionContextProvider = (props) => {
 
     setSession(payload)
   }, [])
-  const clearSession = useCallback(() => {
-    localStorage.removeItem(config.security.session.cookie.key)
-    setSession(null)
-  }, [])
-  const signOut = useCallback(async () => {
-    await deleteResource("sessions")
-    clearSession()
-  }, [clearSession])
+  const signOut = useCallback(() => {
+    mutate()
+  }, [mutate])
 
   useEffect(() => {
     const jwt = localStorage.getItem(config.security.session.cookie.key)
