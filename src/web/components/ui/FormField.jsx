@@ -4,7 +4,7 @@ import { useController } from "react-hook-form"
 const FormField = (props) => {
   const { label, control, name, ...otherProps } = props
   const {
-    field,
+    field: { ref, ...field },
     fieldState: { error },
   } = useController({
     control,
@@ -14,7 +14,7 @@ const FormField = (props) => {
   return (
     <label className="flex flex-col w-full">
       {label && <span>{label}</span>}
-      <Input {...field} {...otherProps} />
+      <Input {...field} {...otherProps} fieldRef={ref} />
       {error && <span className="text-red-500">{error.message}</span>}
     </label>
   )
