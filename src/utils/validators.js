@@ -21,3 +21,4 @@ export const pageValidator = z.string().optional().default("1")
 export const commentValidator = z
   .string()
   .min(1, { message: "Comment is required" })
+export const roleValidator = z.string()
