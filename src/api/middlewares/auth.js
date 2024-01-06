@@ -24,8 +24,7 @@ const auth = async (ctx) => {
   }
 
   const user = await UserModel.query().withGraphFetched("role").findOne({ id })
-  // eslint-disable-next-line require-atomic-updates
-  ctx.user = user
+  ctx.user ||= user
 
   await next()
 }

@@ -14,9 +14,8 @@ const validate =
       const body = bodyValidator
         ? await bodyValidator.parseAsync(req.body || {})
         : {}
-
-      // eslint-disable-next-line require-atomic-updates
-      ctx.input = merge(query, body)
+      const input = merge(query, body)
+      ctx.input ||= input
 
       await next()
     } catch (err) {
