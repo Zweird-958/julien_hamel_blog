@@ -14,7 +14,11 @@ const PaginationItem = ({ query, pathname, ...otherProps }) => (
   </li>
 )
 const Pagination = (props) => {
-  const { page, pathname, countPages } = props
+  const { page, pathname, numberOfPages } = props
+
+  if (numberOfPages < 2) {
+    return null
+  }
 
   return (
     <nav>
@@ -36,7 +40,7 @@ const Pagination = (props) => {
         >
           {page}
         </PaginationItem>
-        {page < countPages && (
+        {page < numberOfPages && (
           <>
             <PaginationItem pathname={pathname} query={{ page: page + 1 }}>
               {page + 1}

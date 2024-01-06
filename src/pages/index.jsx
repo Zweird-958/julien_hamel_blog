@@ -1,7 +1,7 @@
+import countPages from "@/utils/countPages"
 import { pageValidator } from "@/utils/validators"
 import PostCard from "@/web/components/PostCard"
 import Pagination from "@/web/components/ui/Pagination"
-import config from "@/web/config"
 import useQuery from "@/web/hooks/useQuery"
 
 export const getServerSideProps = ({ query: { page } }) => ({
@@ -22,7 +22,7 @@ const Home = (props) => {
       page,
     },
   })
-  const countPages = Math.ceil(count / config.pagination.limit)
+  const numberOfPages = countPages(count)
 
   return (
     <div className="flex flex-col items-center">
@@ -31,7 +31,7 @@ const Home = (props) => {
           <PostCard post={post} key={post.id} truncateContent />
         ))}
       </div>
-      <Pagination page={parseInt(page, 10)} countPages={countPages} />
+      <Pagination page={parseInt(page, 10)} numberOfPages={numberOfPages} />
     </div>
   )
 }
