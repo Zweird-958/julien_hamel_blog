@@ -28,7 +28,7 @@ const Home = (props) => {
     <div className="flex flex-col items-center">
       <div className="flex flex-col gap-4 max-w-md w-full">
         {posts.map((post) => (
-          <PostCard post={post} key={post.id} />
+          <PostCard post={post} key={post.id} truncateContent />
         ))}
       </div>
       <Pagination page={parseInt(page, 10)} countPages={countPages} />
