@@ -2,7 +2,7 @@ import { HttpDuplicateError, HttpForbiddenError } from "@/api/errors"
 import auth from "@/api/middlewares/auth"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
-import isAdmin from "@/utils/isAdmin"
+import canEditUser from "@/api/utils/canEditUser"
 import {
   emailValidator,
   idValidator,
@@ -32,13 +32,7 @@ const handler = mw({
       user,
       input: { disable, userId, role, username, email },
     }) => {
-      const sanitizedEmail = email.toLowerCase()
-
-      if (user.id !== userId && !isAdmin(user)) {
-        throw new HttpForbiddenError()
-      }
-
-      if (user.id === userId && disable) {
+      if (!canEditUser(user, userId, disable)) {
         throw new HttpForbiddenError()
       }
 
@@ -63,6 +57,8 @@ const handler = mw({
         }
       }
 
+      const sanitizedEmail = email && email.toLowerCase()
+
       if (email !== userToUpdate.email) {
         const users = await query.clone().where("email", sanitizedEmail)
 
@@ -71,13 +67,17 @@ const handler = mw({
         }
       }
 
-      const userUpdated = await query.clone().updateAndFetchById(id, {
-        roleId: role ? parseInt(role, 10) : userToUpdate.role,
-        username: username || userToUpdate.username,
-        email: sanitizedEmail || userToUpdate.email,
-      })
+      await query
+        .clone()
+        .update({
+          roleId: role ? parseInt(role, 10) : userToUpdate.role,
+          username: username || userToUpdate.username,
+          email: sanitizedEmail || userToUpdate.email,
+        })
+        .where("id", id)
+      const userUpdated = await query.clone().modify("format").where("id", id)
 
-      send("hello")
+      send(userUpdated)
     },
   ],
 })

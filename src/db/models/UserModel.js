@@ -10,14 +10,16 @@ class UserModel extends BaseModel {
       query.select().where(raw("LOWER(username)"), username.toLowerCase())
     },
     format(query) {
-      query.select(
-        "username",
-        "email",
-        "createdAt",
-        "updatedAt",
-        "deletedAt",
-        "id",
-      )
+      query
+        .select(
+          "username",
+          "email",
+          "createdAt",
+          "updatedAt",
+          "deletedAt",
+          "id",
+        )
+        .withGraphFetched("role")
     },
   }
 

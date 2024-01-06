@@ -51,7 +51,6 @@ const handler = mw({
       const users = await UserModel.query()
         .modify("format")
         .where("id", "!=", id)
-        .withGraphFetched("role")
 
       await send(users)
     },
