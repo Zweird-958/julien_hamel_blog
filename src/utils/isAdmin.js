@@ -1,9 +1,5 @@
-const isAdmin = (user) => {
-  const {
-    role: { name: roleName },
-  } = user
+import getRole from "@/utils/getRole"
 
-  return roleName === "admin"
-}
+const isAdmin = (user) => getRole(user) === "admin"
 
 export default isAdmin

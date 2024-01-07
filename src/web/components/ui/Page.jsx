@@ -1,3 +1,5 @@
+import isAdmin from "@/utils/isAdmin"
+import isAuthor from "@/utils/isAuthor"
 import { useSession } from "@/web/components/SessionContext"
 import Button from "@/web/components/ui/Button"
 import Link from "@/web/components/ui/Link"
@@ -9,7 +11,7 @@ const Page = (props) => {
   return (
     <div className="flex flex-col">
       <div className="flex justify-center shadow-sm py-2 z-10 px-4">
-        <div className="max-w-2xl w-full flex justify-between items-center">
+        <div className="max-w-3xl w-full flex justify-between items-center">
           <Link className="text-xl" href="/">
             Blog
           </Link>
@@ -29,7 +31,7 @@ const Page = (props) => {
             </div>
           ) : (
             <div className="flex gap-2">
-              {session.user.role === "admin" && (
+              {isAdmin(session.user) && (
                 <Button as={Link} href="/admin">
                   Admin Dashboard
                 </Button>
@@ -37,6 +39,11 @@ const Page = (props) => {
               <Button as={Link} href="/dashboard">
                 Dashboard
               </Button>
+              {isAuthor(session.user) && (
+                <Button as={Link} href="/posts/create">
+                  Create Post
+                </Button>
+              )}
               <Button color="danger" onClick={signOut}>
                 Sign Out
               </Button>
