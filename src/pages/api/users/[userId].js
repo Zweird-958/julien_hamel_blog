@@ -71,8 +71,7 @@ const handler = mw({
       await query
         .clone()
         .update({
-          roleId:
-            role && isAdmin(role) ? parseInt(role, 10) : userToUpdate.role,
+          roleId: role && isAdmin(user) ? role : userToUpdate.role,
           username: username || userToUpdate.username,
           email: sanitizedEmail || userToUpdate.email,
         })

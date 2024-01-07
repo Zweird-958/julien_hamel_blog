@@ -51,7 +51,7 @@ const Post = (props) => {
               <CommentCard key={comment.id} comment={comment} />
             ))}
             <Pagination
-              page={parseInt(page, 10)}
+              page={page}
               numberOfPages={numberOfPages}
               pathname={`/posts/${postId}`}
             />

@@ -17,8 +17,8 @@ export const contentValidator = z
   .string()
   .min(1, { message: "Content is required" })
 export const idValidator = z.string().uuid()
-export const pageValidator = z.string().optional().default("1")
+export const pageValidator = z.coerce.number().optional().default(1)
 export const commentValidator = z
   .string()
   .min(1, { message: "Comment is required" })
-export const roleValidator = z.string()
+export const roleValidator = z.coerce.number()
