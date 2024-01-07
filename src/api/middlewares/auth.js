@@ -23,7 +23,15 @@ const auth = async (ctx) => {
     throw new HttpForbiddenError()
   }
 
-  const user = await UserModel.query().withGraphFetched("role").findOne({ id })
+  const user = await UserModel.query()
+    .active()
+    .withGraphFetched("role")
+    .findOne({ id })
+
+  if (!user) {
+    throw new HttpForbiddenError()
+  }
+
   ctx.user ||= user
 
   await next()
