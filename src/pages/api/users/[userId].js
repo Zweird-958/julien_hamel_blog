@@ -3,6 +3,7 @@ import auth from "@/api/middlewares/auth"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import canEditUser from "@/api/utils/canEditUser"
+import isAdmin from "@/utils/isAdmin"
 import {
   emailValidator,
   idValidator,
@@ -70,7 +71,8 @@ const handler = mw({
       await query
         .clone()
         .update({
-          roleId: role ? parseInt(role, 10) : userToUpdate.role,
+          roleId:
+            role && isAdmin(role) ? parseInt(role, 10) : userToUpdate.role,
           username: username || userToUpdate.username,
           email: sanitizedEmail || userToUpdate.email,
         })
