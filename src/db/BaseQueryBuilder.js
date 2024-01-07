@@ -11,6 +11,10 @@ class BaseQueryBuilder extends QueryBuilder {
   softDelete(id) {
     return this.updateAndFetchById(id, { deletedAt: new Date().toISOString() })
   }
+
+  active() {
+    return this.whereNull("deletedAt")
+  }
 }
 
 export default BaseQueryBuilder

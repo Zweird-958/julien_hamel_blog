@@ -13,6 +13,13 @@ import jsonwebtoken from "jsonwebtoken"
 import ms from "ms"
 import { z } from "zod"
 
+const cookiesValues = {
+  name: webConfig.security.session.cookie.key,
+  path: "/",
+  sameSite: "strict",
+  httpOnly: true,
+  secure: webConfig.security.session.cookie.secure,
+}
 const handle = mw({
   POST: [
     validate({
@@ -29,6 +36,7 @@ const handle = mw({
     }) => {
       const sanitizedEmail = email.toLowerCase()
       const user = await UserModel.query()
+        .active()
         .withGraphFetched("role")
         .findOne({ email: sanitizedEmail })
 
@@ -66,13 +74,9 @@ const handle = mw({
       res.setHeader(
         "set-cookie",
         genCookies({
-          name: webConfig.security.session.cookie.key,
+          ...cookiesValues,
           value: cookieJwt,
           expires: Date.now() + ms(config.security.jwt.expiresIn),
-          path: "/",
-          sameSite: "strict",
-          httpOnly: true,
-          secure: webConfig.security.session.cookie.secure,
         }),
       )
       send(jwt)
@@ -84,13 +88,9 @@ const handle = mw({
       res.setHeader(
         "set-cookie",
         genCookies({
-          name: webConfig.security.session.cookie.key,
+          ...cookiesValues,
           value: "null",
           expires: Date.now() - ms("10 years"),
-          path: "/",
-          sameSite: "strict",
-          httpOnly: true,
-          secure: webConfig.security.session.cookie.secure,
         }),
       )
       send(true)
