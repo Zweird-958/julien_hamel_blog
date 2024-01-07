@@ -65,6 +65,7 @@ const UserCard = (props) => {
         <div className="flex justify-between">
           <Button type="submit">Save</Button>
           <Button
+            type="button"
             onClick={disableOnClick}
             data-user-id={id}
             disabled={deletedAt}
