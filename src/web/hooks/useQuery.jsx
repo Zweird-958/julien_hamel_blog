@@ -1,8 +1,9 @@
+import removeNull from "@/utils/removeNull"
 import { readResource } from "@/web/services/apiClient"
 import { useQuery as useTanstackQuery } from "@tanstack/react-query"
 
 const useQuery = ({ endpoint, params, keys = [] }) => {
-  const queryString = new URLSearchParams(params).toString()
+  const queryString = new URLSearchParams(removeNull(params)).toString()
   const {
     data: {
       data: { result, meta },

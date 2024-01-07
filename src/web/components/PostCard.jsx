@@ -7,7 +7,7 @@ const PostCard = (props) => {
     id,
     title,
     content,
-    author: { username },
+    author: { username, id: authorId },
   } = post
 
   return (
@@ -23,7 +23,14 @@ const PostCard = (props) => {
       </p>
       <div className="flex justify-between">
         <Link href={`/posts/${id}`}>See more</Link>
-        <p>{username}</p>
+        <Link
+          href={{
+            pathname: "/",
+            query: { authorId },
+          }}
+        >
+          {username}
+        </Link>
       </div>
     </Card>
   )
