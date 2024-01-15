@@ -1,4 +1,5 @@
 import { HttpDuplicateError, HttpForbiddenError } from "@/api/errors"
+import admin from "@/api/middlewares/admin"
 import auth from "@/api/middlewares/auth"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
@@ -81,6 +82,20 @@ const handler = mw({
       const userUpdated = await query.clone().modify("format").where("id", id)
 
       send(userUpdated)
+    },
+  ],
+  DELETE: [
+    validate({
+      query: z.object({
+        userId: idValidator,
+      }),
+    }),
+    auth,
+    admin,
+    async ({ send, input: { userId }, models: { UserModel } }) => {
+      await UserModel.query().softDelete(userId)
+
+      await send(true)
     },
   ],
 })

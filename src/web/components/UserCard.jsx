@@ -12,7 +12,7 @@ import getErrorMessage from "@/web/utils/getErrorMessage"
 import { z } from "zod"
 // eslint-disable-next-line max-lines-per-function
 const UserCard = (props) => {
-  const { user, disableOnClick, roles, onSubmit, error } = props
+  const { user, disableOnClick, roles, onSubmit, error, deleteUser } = props
   const {
     id,
     email,
@@ -26,9 +26,19 @@ const UserCard = (props) => {
     username: usernameValidator,
     email: emailValidator,
   })
+  const handleDeleteUser = () => {
+    deleteUser(id)
+  }
 
   return (
     <Card key={id}>
+      <Button
+        className="w-fit self-end"
+        color="danger"
+        onClick={handleDeleteUser}
+      >
+        Delete
+      </Button>
       <FormGeneric
         schema={userSchema}
         defaultValues={{ role: roleId.toString(), id, username, email }}

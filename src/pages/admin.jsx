@@ -23,6 +23,11 @@ const Admin = () => {
     method: "patch",
     onSuccess: refetch,
   })
+  const { mutate: deleteUser } = useMutation({
+    endpoint: "users",
+    method: "delete",
+    onSuccess: refetch,
+  })
 
   if (error) {
     return (
@@ -39,7 +44,12 @@ const Admin = () => {
   return (
     <div className="px-4 flex flex-col items-center gap-4 mt-4">
       <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-      <UserList users={users} editUser={editUser} error={editUserError} />
+      <UserList
+        users={users}
+        editUser={editUser}
+        deleteUser={deleteUser}
+        error={editUserError}
+      />
     </div>
   )
 }
