@@ -41,7 +41,9 @@ const handler = mw({
       const id = userId || user.id
 
       if (disable) {
-        const userUpdated = await query.clone().softDelete(id)
+        const userUpdated = await query
+          .clone()
+          .updateAndFetchById(id, { disabled: true })
 
         send(userUpdated)
 

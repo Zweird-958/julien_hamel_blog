@@ -38,7 +38,7 @@ const handle = mw({
       const user = await UserModel.query()
         .active()
         .withGraphFetched("role")
-        .findOne({ email: sanitizedEmail })
+        .findOne({ email: sanitizedEmail, disabled: false })
 
       if (!user) {
         await sleep(AVERAGE_PASSWORD_HASHING_DURATION)
