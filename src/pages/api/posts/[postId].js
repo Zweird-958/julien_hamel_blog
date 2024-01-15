@@ -11,9 +11,9 @@ const handler = mw({
       }),
     }),
     async ({ send, models: { PostModel }, input: { postId } }) => {
-      const post = await PostModel.query()
-        .withGraphFetched("author")
-        .findOne({ id: postId })
+      const query = PostModel.query().findOne({ id: postId })
+      const post = await query.clone().withGraphFetched("author")
+      await query.clone().increment("visits", 1)
 
       send(post)
     },

@@ -7,12 +7,16 @@ const PostCard = (props) => {
     id,
     title,
     content,
-    author: { username, id: authorId },
+    visits,
+    author: { username, id: authorId } = {},
   } = post
 
   return (
     <Card key={id}>
-      <h2 className="text-xl border-b-2 truncate">{title}</h2>
+      <div className="flex justify-between border-b-2">
+        <h2 className="text-xl truncate">{title}</h2>
+        <p>{visits} Visits</p>
+      </div>
       <p
         className={clsx(
           "text-wrap w-full break-words",
