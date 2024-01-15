@@ -50,6 +50,7 @@ const handler = mw({
     async ({ send, models: { UserModel }, user: { id } }) => {
       const users = await UserModel.query()
         .modify("format")
+        .active()
         .where("id", "!=", id)
 
       await send(users)
