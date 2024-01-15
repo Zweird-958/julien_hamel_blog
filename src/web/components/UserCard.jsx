@@ -18,7 +18,7 @@ const UserCard = (props) => {
     email,
     username,
     role: { id: roleId },
-    deletedAt,
+    disabled,
   } = user
   const userSchema = z.object({
     role: roleValidator,
@@ -78,7 +78,7 @@ const UserCard = (props) => {
             type="button"
             onClick={disableOnClick}
             data-user-id={id}
-            disabled={deletedAt}
+            disabled={disabled}
           >
             Disable
           </Button>
