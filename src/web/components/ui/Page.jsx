@@ -11,7 +11,7 @@ const Page = (props) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center shadow-sm py-2 z-10 px-4">
+      <div className="flex justify-center shadow-sm py-2 z-10 px-4 bg-background">
         <div className="max-w-3xl w-full flex justify-between items-center">
           <Link className="text-xl" href="/">
             Blog

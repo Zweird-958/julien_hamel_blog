@@ -10,7 +10,7 @@ const SideBar = (props) => {
   const { session, signOut } = useSession()
 
   return (
-    <div className="max-w-sm w-full shadow-md bg-white flex flex-col gap-4 p-4 fixed z-10 right-0 h-screen">
+    <div className="max-w-sm w-full shadow-md bg-background flex flex-col gap-4 px-4 py-2 fixed z-10 right-0 h-screen">
       <Button
         variant="bordered"
         className="w-fit self-end"

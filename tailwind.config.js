@@ -15,6 +15,7 @@ module.exports = {
         card: "#fafafa",
         disabled: "#E5E7EB",
         warning: "#f5a524",
+        background: "#ffffff",
       },
     },
   },
