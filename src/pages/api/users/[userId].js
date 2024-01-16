@@ -4,6 +4,7 @@ import auth from "@/api/middlewares/auth"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import canEditUser from "@/api/utils/canEditUser"
+import isDuplicatedUser from "@/api/utils/isDuplicatedUser"
 import isAdmin from "@/utils/isAdmin"
 import {
   emailValidator,
@@ -27,7 +28,6 @@ const handler = mw({
       }),
     }),
     auth,
-    // eslint-disable-next-line complexity
     async ({
       send,
       models: { UserModel },
@@ -52,23 +52,15 @@ const handler = mw({
       }
 
       const userToUpdate = await query.clone().findById(id).throwIfNotFound()
-
-      if (username !== userToUpdate.username) {
-        const users = await query.clone().modify("insensitiveCase", username)
-
-        if (users.length > 0) {
-          throw new HttpDuplicateError("Username")
-        }
-      }
-
       const sanitizedEmail = email && email.toLowerCase()
+      const [isDuplicated, field] = await isDuplicatedUser(
+        { email: sanitizedEmail, username },
+        userToUpdate,
+        query,
+      )
 
-      if (email !== userToUpdate.email) {
-        const users = await query.clone().where("email", sanitizedEmail)
-
-        if (users.length > 0) {
-          throw new HttpDuplicateError("Email")
-        }
+      if (isDuplicated) {
+        throw new HttpDuplicateError(field)
       }
 
       await query
