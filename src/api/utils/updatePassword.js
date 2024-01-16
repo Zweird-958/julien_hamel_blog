@@ -19,8 +19,8 @@ const updatePassword = async (
 
     const [newPasswordHash, passwordSalt] = await hashPassword(newPassword)
 
-    await updateUser(
-      { query, id: user.id, user },
+    return await updateUser(
+      { query, user },
       { passwordHash: newPasswordHash, passwordSalt },
     )
   }

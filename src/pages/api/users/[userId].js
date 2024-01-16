@@ -1,16 +1,16 @@
-import { HttpDuplicateError, HttpForbiddenError } from "@/api/errors"
+import { HttpDuplicateError } from "@/api/errors"
 import admin from "@/api/middlewares/admin"
 import auth from "@/api/middlewares/auth"
 import filterInput from "@/api/middlewares/filterInput"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
-import canEditUser from "@/api/utils/canEditUser"
 import genSessionCookies from "@/api/utils/genSessionCookies"
 import isDuplicatedUser from "@/api/utils/isDuplicatedUser"
 import signUserToken from "@/api/utils/signUserToken"
 import updatePassword from "@/api/utils/updatePassword"
 import updateUser from "@/api/utils/updateUser"
 import {
+  disabledValidator,
   emailValidator,
   idValidator,
   passwordValidator,
@@ -23,7 +23,7 @@ const handler = mw({
   PATCH: [
     validate({
       body: z.object({
-        disable: z.boolean().optional(),
+        disabled: disabledValidator.optional(),
         role: roleValidator.optional(),
         username: usernameValidator.optional(),
         email: emailValidator.optional(),
@@ -42,7 +42,7 @@ const handler = mw({
       models: { UserModel },
       user,
       input: {
-        disable,
+        disabled,
         userId,
         role,
         username,
@@ -51,23 +51,8 @@ const handler = mw({
         newPassword,
       },
     }) => {
-      if (!canEditUser(user, userId, disable)) {
-        throw new HttpForbiddenError()
-      }
-
       const query = UserModel.query()
       const id = userId || user.id
-
-      if (disable) {
-        const userUpdated = await query
-          .clone()
-          .patchAndFetchById(id, { disabled: true })
-
-        send(userUpdated)
-
-        return
-      }
-
       const userToUpdate = await query.clone().findById(id).throwIfNotFound()
       const [isDuplicated, field] = await isDuplicatedUser(
         { email, username },
@@ -79,10 +64,21 @@ const handler = mw({
         throw new HttpDuplicateError(field)
       }
 
-      await updatePassword({ newPassword, currentPassword }, user, query)
+      const userPasswordUpdated = await updatePassword(
+        { newPassword, currentPassword },
+        user,
+        query,
+      )
+
+      if (userPasswordUpdated) {
+        send(userPasswordUpdated)
+
+        return
+      }
+
       const userUpdated = await updateUser(
-        { query, id, fetchUser: true, user },
-        { roleId: role, username, email },
+        { query, id, fetchUser: true, user: userToUpdate },
+        { roleId: role, username, email, disabled },
       )
 
       if (user.id === id && username) {

@@ -10,7 +10,7 @@ const UserList = (props) => {
     disableUser(id)
   }
   const disableUser = (id) => {
-    editUser({ disable: true, queryId: id })
+    editUser({ disabled: true, queryId: id })
   }
   const onSubmit = (data) => {
     editUser({ ...data, queryId: data.id })

@@ -23,3 +23,4 @@ export const commentValidator = z
   .string()
   .min(1, { message: "Comment is required" })
 export const roleValidator = z.coerce.number()
+export const disabledValidator = z.boolean()

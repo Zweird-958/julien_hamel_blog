@@ -1,6 +1,6 @@
 const updateUser = async (
-  { query, fetchUser, id, user },
-  { username, email, roleId, passwordHash, passwordSalt },
+  { query, user },
+  { username, email, roleId, passwordHash, passwordSalt, disabled },
 ) => {
   await query
     .clone()
@@ -10,17 +10,14 @@ const updateUser = async (
       email: email || user.email,
       passwordHash: passwordHash || user.passwordHash,
       passwordSalt: passwordSalt || user.passwordSalt,
+      disabled: disabled !== null ? disabled : user.disabled,
     })
-    .where("id", id)
-
-  if (!fetchUser) {
-    return null
-  }
+    .where("id", user.id)
 
   const userUpdated = await query
     .clone()
     .modify("format")
-    .where("id", id)
+    .where("id", user.id)
     .first()
 
   return userUpdated
