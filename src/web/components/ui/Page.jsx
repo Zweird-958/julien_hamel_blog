@@ -23,7 +23,7 @@ const Page = (props) => {
       </div>
       {children}
 
-      {isMenuOpen && <SideBar />}
+      {isMenuOpen && <SideBar toggleMenu={toggleMenu} />}
     </div>
   )
 }
