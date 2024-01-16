@@ -18,7 +18,7 @@ const passwordFields = [
 ]
 const Profile = () => {
   const { session } = useSession()
-  const { mutate, error } = useMutation({
+  const { mutate, error, isSuccess, isPending } = useMutation({
     endpoint: "users",
     method: "patch",
   })
@@ -42,6 +42,7 @@ const Profile = () => {
             title="Change password"
             fields={passwordFields}
             schema={passwordSchema}
+            isLoading={isPending}
             defaultValues={{
               currentPassword: "",
               newPassword: "",
@@ -50,6 +51,7 @@ const Profile = () => {
             onSubmit={onSubmit}
           />
           {error && <Alert variant="danger" message={getErrorMessage(error)} />}
+          {isSuccess && <Alert message="Password changed successfully" />}
         </Card>
       </div>
     </div>

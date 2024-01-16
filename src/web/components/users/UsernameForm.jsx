@@ -10,20 +10,19 @@ import { z } from "zod"
 
 const UsernameForm = () => {
   const { session, signIn } = useSession()
-  const { mutate: updateUsernameMutate, error: updateUsernameError } =
-    useMutation({
-      endpoint: "users",
-      method: "patch",
-      onSuccess: ({
-        data: {
-          result: [jwt],
-        },
-      }) => {
-        signIn(jwt)
+  const { mutate, error, isSuccess } = useMutation({
+    endpoint: "users",
+    method: "patch",
+    onSuccess: ({
+      data: {
+        result: [jwt],
       },
-    })
+    }) => {
+      signIn(jwt)
+    },
+  })
   const updateUsername = (data) => {
-    updateUsernameMutate({
+    mutate({
       queryId: session.user.id,
       ...data,
     })
@@ -44,12 +43,8 @@ const UsernameForm = () => {
         <Button className="h-12">Save</Button>
       </Form>
       <div className="px-4">
-        {updateUsernameError && (
-          <Alert
-            variant="danger"
-            message={getErrorMessage(updateUsernameError)}
-          />
-        )}
+        {error && <Alert variant="danger" message={getErrorMessage(error)} />}
+        {isSuccess && <Alert message="Username changed successfully" />}
       </div>
     </Card>
   )
