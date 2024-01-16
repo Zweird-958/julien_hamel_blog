@@ -2,7 +2,9 @@ import {
   commentValidator,
   contentValidator,
   emailValidator,
+  idValidator,
   passwordValidator,
+  roleValidator,
   titleValidator,
   usernameValidator,
 } from "@/utils/validators"
@@ -21,4 +23,10 @@ export const createPostSchema = z.object({
 })
 export const commentSchema = z.object({
   comment: commentValidator,
+})
+export const userSchema = z.object({
+  role: roleValidator,
+  id: idValidator,
+  username: usernameValidator,
+  email: emailValidator,
 })
