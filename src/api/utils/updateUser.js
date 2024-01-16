@@ -1,15 +1,15 @@
 const updateUser = async (
-  { query, fetchUser, id },
+  { query, fetchUser, id, user },
   { username, email, roleId, passwordHash, passwordSalt },
 ) => {
   await query
     .clone()
     .patch({
-      roleId,
-      username,
-      email,
-      passwordHash,
-      passwordSalt,
+      roleId: roleId || user.roleId,
+      username: username || user.username,
+      email: email || user.email,
+      passwordHash: passwordHash || user.passwordHash,
+      passwordSalt: passwordSalt || user.passwordSalt,
     })
     .where("id", id)
 

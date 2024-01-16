@@ -1,6 +1,7 @@
 import { HttpDuplicateError, HttpForbiddenError } from "@/api/errors"
 import admin from "@/api/middlewares/admin"
 import auth from "@/api/middlewares/auth"
+import filterInput from "@/api/middlewares/filterInput"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import canEditUser from "@/api/utils/canEditUser"
@@ -9,7 +10,6 @@ import isDuplicatedUser from "@/api/utils/isDuplicatedUser"
 import signUserToken from "@/api/utils/signUserToken"
 import updatePassword from "@/api/utils/updatePassword"
 import updateUser from "@/api/utils/updateUser"
-import isAdmin from "@/utils/isAdmin"
 import {
   emailValidator,
   idValidator,
@@ -35,6 +35,7 @@ const handler = mw({
       }),
     }),
     auth,
+    filterInput,
     async ({
       res,
       send,
@@ -80,8 +81,8 @@ const handler = mw({
 
       await updatePassword({ newPassword, currentPassword }, user, query)
       const userUpdated = await updateUser(
-        { query, id, fetchUser: true },
-        { roleId: role && isAdmin(user) && role, username, email },
+        { query, id, fetchUser: true, user },
+        { roleId: role, username, email },
       )
 
       if (user.id === id && username) {
