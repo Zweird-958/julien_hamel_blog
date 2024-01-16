@@ -1,4 +1,4 @@
-import UserCard from "@/web/components/UserCard"
+import UserCard from "@/web/components/users/UserCard"
 import useQuery from "@/web/hooks/useQuery"
 const UserList = (props) => {
   const { users, editUser, deleteUser, error } = props

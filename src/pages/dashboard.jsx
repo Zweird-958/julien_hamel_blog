@@ -1,4 +1,4 @@
-import PostCard from "@/web/components/PostCard"
+import PostCard from "@/web/components/posts/PostCard"
 import { useSession } from "@/web/components/SessionContext"
 import Card from "@/web/components/ui/Card"
 import useQuery from "@/web/hooks/useQuery"

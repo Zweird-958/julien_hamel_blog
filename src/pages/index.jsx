@@ -1,6 +1,6 @@
 import countPages from "@/utils/countPages"
 import { pageValidator } from "@/utils/validators"
-import PostCard from "@/web/components/PostCard"
+import PostCard from "@/web/components/posts/PostCard"
 import Button from "@/web/components/ui/Button"
 import Link from "@/web/components/ui/Link"
 import Pagination from "@/web/components/ui/Pagination"

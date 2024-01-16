@@ -1,4 +1,4 @@
-import EditPostForm from "@/web/components/EditPostForm"
+import EditPostForm from "@/web/components/posts/EditPostForm"
 import { useSession } from "@/web/components/SessionContext"
 import PostFooterCard from "@/web/components/posts/PostFooterCard"
 import Button from "@/web/components/ui/Button"

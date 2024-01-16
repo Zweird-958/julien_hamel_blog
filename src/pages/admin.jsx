@@ -1,5 +1,5 @@
 import { useSession } from "@/web/components/SessionContext"
-import UserList from "@/web/components/UserList"
+import UserList from "@/web/components/users/UserList"
 import Alert from "@/web/components/ui/Alert"
 import CenterDiv from "@/web/components/ui/CenterDiv"
 import LoaderScreen from "@/web/components/ui/LoaderScreen"
