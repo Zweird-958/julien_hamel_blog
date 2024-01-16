@@ -30,3 +30,13 @@ export const userSchema = z.object({
   username: usernameValidator,
   email: emailValidator,
 })
+export const passwordSchema = z
+  .object({
+    currentPassword: passwordValidator,
+    newPassword: passwordValidator,
+    confirmNewPassword: passwordValidator,
+  })
+  .refine((schema) => schema.newPassword === schema.confirmNewPassword, {
+    path: ["confirmNewPassword"],
+    message: "Passwords don't match",
+  })

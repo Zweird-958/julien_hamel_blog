@@ -4,11 +4,16 @@ import auth from "@/api/middlewares/auth"
 import validate from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import canEditUser from "@/api/utils/canEditUser"
+import genSessionCookies from "@/api/utils/genSessionCookies"
 import isDuplicatedUser from "@/api/utils/isDuplicatedUser"
+import signUserToken from "@/api/utils/signUserToken"
+import updatePassword from "@/api/utils/updatePassword"
+import updateUser from "@/api/utils/updateUser"
 import isAdmin from "@/utils/isAdmin"
 import {
   emailValidator,
   idValidator,
+  passwordValidator,
   roleValidator,
   usernameValidator,
 } from "@/utils/validators"
@@ -22,6 +27,8 @@ const handler = mw({
         role: roleValidator.optional(),
         username: usernameValidator.optional(),
         email: emailValidator.optional(),
+        currentPassword: passwordValidator.optional(),
+        newPassword: passwordValidator.optional(),
       }),
       query: z.object({
         userId: idValidator,
@@ -29,10 +36,19 @@ const handler = mw({
     }),
     auth,
     async ({
+      res,
       send,
       models: { UserModel },
       user,
-      input: { disable, userId, role, username, email },
+      input: {
+        disable,
+        userId,
+        role,
+        username,
+        email,
+        currentPassword,
+        newPassword,
+      },
     }) => {
       if (!canEditUser(user, userId, disable)) {
         throw new HttpForbiddenError()
@@ -44,7 +60,7 @@ const handler = mw({
       if (disable) {
         const userUpdated = await query
           .clone()
-          .updateAndFetchById(id, { disabled: true })
+          .patchAndFetchById(id, { disabled: true })
 
         send(userUpdated)
 
@@ -52,9 +68,8 @@ const handler = mw({
       }
 
       const userToUpdate = await query.clone().findById(id).throwIfNotFound()
-      const sanitizedEmail = email && email.toLowerCase()
       const [isDuplicated, field] = await isDuplicatedUser(
-        { email: sanitizedEmail, username },
+        { email, username },
         userToUpdate,
         query,
       )
@@ -63,15 +78,20 @@ const handler = mw({
         throw new HttpDuplicateError(field)
       }
 
-      await query
-        .clone()
-        .update({
-          roleId: role && isAdmin(user) ? role : userToUpdate.role,
-          username: username || userToUpdate.username,
-          email: sanitizedEmail || userToUpdate.email,
-        })
-        .where("id", id)
-      const userUpdated = await query.clone().modify("format").where("id", id)
+      await updatePassword({ newPassword, currentPassword }, user, query)
+      const userUpdated = await updateUser(
+        { query, id, fetchUser: true },
+        { roleId: role && isAdmin(user) && role, username, email },
+      )
+
+      if (user.id === id && username) {
+        const { jwt, cookieJwt } = signUserToken(userUpdated)
+
+        res.setHeader("set-cookie", genSessionCookies(cookieJwt))
+        send(jwt)
+
+        return
+      }
 
       send(userUpdated)
     },

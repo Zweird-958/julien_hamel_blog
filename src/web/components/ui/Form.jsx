@@ -23,12 +23,9 @@ const Form = (props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={
-        className ??
-        "p-4 flex flex-col items-center max-w-sm gap-3 w-full rounded-lg shadow-md bg-card"
-      }
+      className={className ?? "p-4 flex flex-col items-center gap-3 w-full"}
     >
-      {title && <h1 className="text-2xl font-semibold">{title}</h1>}
+      {title && <p className="text-xl font-semibold">{title}</p>}
       {fields.map((fieldProps) => (
         <FormField key={fieldProps.name} {...fieldProps} control={control} />
       ))}

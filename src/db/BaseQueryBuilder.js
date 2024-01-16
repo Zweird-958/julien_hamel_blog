@@ -9,7 +9,7 @@ class BaseQueryBuilder extends QueryBuilder {
   }
 
   softDelete(id) {
-    return this.updateAndFetchById(id, { deletedAt: new Date().toISOString() })
+    return this.patchAndFetchById(id, { deletedAt: new Date().toISOString() })
   }
 
   active() {

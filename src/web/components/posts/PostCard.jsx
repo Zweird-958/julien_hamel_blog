@@ -22,7 +22,7 @@ const PostCard = (props) => {
 
   return (
     <Card key={id}>
-      {session.user.id === author.id && singlePage && (
+      {session && session.user.id === author.id && singlePage && (
         <Button onClick={toggleEditPost} className="self-start" color="warning">
           <PencilSquareIcon className="w-5 h-5" />
         </Button>
