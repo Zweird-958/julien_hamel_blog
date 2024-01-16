@@ -21,6 +21,7 @@ const Post = (props) => {
     data: {
       result: [post],
     },
+    refetch: refetchPost,
   } = useQuery({
     endpoint: `posts/${postId}`,
   })
@@ -42,7 +43,7 @@ const Post = (props) => {
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-col gap-4 max-w-lg w-full mt-2 px-4 items-center">
-        {post && <PostCard post={post} />}
+        {post && <PostCard post={post} singlePage refetchPost={refetchPost} />}
         <CommentForm postId={postId} onSuccess={refetch} />
         {count > 0 && (
           <>

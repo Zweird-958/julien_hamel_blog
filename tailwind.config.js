@@ -14,6 +14,7 @@ module.exports = {
         success: "#17C964",
         card: "#fafafa",
         disabled: "#E5E7EB",
+        warning: "#f5a524",
       },
     },
   },

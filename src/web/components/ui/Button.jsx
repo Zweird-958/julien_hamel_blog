@@ -22,6 +22,11 @@ const variants = {
     bordered: "border-disabled text-disabled",
     empty: "text-disabled",
   },
+  warning: {
+    fill: "bg-warning text-white border-warning",
+    bordered: "border-warning text-warning",
+    empty: "text-warning",
+  },
 }
 const Button = (props) => {
   const {
