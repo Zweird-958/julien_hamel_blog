@@ -1,16 +1,16 @@
 const isDuplicatedUser = async ({ email, username }, userToUpdate, query) => {
   if (username && username !== userToUpdate.username) {
-    const users = await query.clone().modify("insensitiveCase", username)
+    const user = await query.clone().modify("insensitiveCase", username).first()
 
-    if (users.length > 0) {
+    if (user) {
       return [true, "username"]
     }
   }
 
   if (email && email !== userToUpdate.email) {
-    const users = await query.clone().where("email", email)
+    const user = await query.clone().where("email", email).first()
 
-    if (users.length > 0) {
+    if (user) {
       return [true, "email"]
     }
   }

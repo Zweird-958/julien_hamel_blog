@@ -18,9 +18,12 @@ const handler = mw({
     }) => {
       const sanitizedEmail = email.toLowerCase()
       const query = UserModel.query()
-      const user = await query.clone().modify("insensitiveCase", username)
+      const user = await query
+        .clone()
+        .modify("insensitiveCase", username)
+        .first()
 
-      if (user.length > 0) {
+      if (user) {
         throw new HttpDuplicateError("Username")
       }
 
