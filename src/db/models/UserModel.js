@@ -18,6 +18,7 @@ class UserModel extends BaseModel {
           "updatedAt",
           "deletedAt",
           "id",
+          "disabled",
         )
         .withGraphFetched("role")
     },
