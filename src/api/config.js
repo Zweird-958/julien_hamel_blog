@@ -6,6 +6,12 @@ const validationSchema = z.object({
     client: z.enum(["pg"]),
     connection: z.string(),
   }),
+  logger: z.object({
+    paths: z.object({
+      debug: z.string(),
+      error: z.string(),
+    }),
+  }),
   security: z.object({
     jwt: z.object({
       secret: z.string(),
@@ -19,6 +25,12 @@ let config = null
 try {
   config = validationSchema.parse({
     db: knexfile,
+    logger: {
+      paths: {
+        debug: process.env.LOGGER__PATHS__DEBUG,
+        error: process.env.LOGGER__PATHS__ERROR,
+      },
+    },
     security: {
       jwt: {
         secret: process.env.SECURITY__JWT__SECRET,

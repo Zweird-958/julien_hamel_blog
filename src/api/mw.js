@@ -6,6 +6,7 @@ import {
   HttpPublicError,
   PublicError,
 } from "@/api/errors"
+import { logError } from "@/api/utils/createLogger"
 import { JsonWebTokenError } from "jsonwebtoken"
 import { randomUUID } from "node:crypto"
 import { NotFoundError } from "objection"
@@ -28,8 +29,7 @@ const handleError = (err, { res }) => {
       .status(HTTP_ERRORS.INTERNAL_SERVER_ERROR)
       .send({ error: "Something went wrong." })
 
-    // eslint-disable-next-line no-console
-    console.error(error)
+    logError(error)
 
     return
   }
