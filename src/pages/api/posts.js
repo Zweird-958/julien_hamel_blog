@@ -36,7 +36,7 @@ const handler = mw({
       }),
     }),
     async ({ send, models: { PostModel }, input: { page, authorId } }) => {
-      const baseQuery = PostModel.query()
+      const baseQuery = PostModel.query().modify("active")
       const query = authorId ? baseQuery.where("authorId", authorId) : baseQuery
       const posts = await query
         .clone()
