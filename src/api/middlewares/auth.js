@@ -25,6 +25,7 @@ const auth = async (ctx) => {
 
   const user = await UserModel.query()
     .active()
+    .where("disabled", false)
     .withGraphFetched("role")
     .findOne({ id })
 
