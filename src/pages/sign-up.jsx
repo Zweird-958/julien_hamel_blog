@@ -1,5 +1,6 @@
 import { signUpSchema } from "@/utils/schemas"
 import Alert from "@/web/components/ui/Alert"
+import Card from "@/web/components/ui/Card"
 import CenterDiv from "@/web/components/ui/CenterDiv"
 import Form from "@/web/components/ui/Form"
 import useMutation from "@/web/hooks/useMutation"
@@ -21,26 +22,28 @@ const SignUp = () => {
 
   return (
     <CenterDiv>
-      <Form
-        schema={signUpSchema}
-        defaultValues={{ username: "", email: "", password: "" }}
-        onSubmit={onSubmit}
-        isLoading={isPending}
-        title="Sign Up"
-        fields={[
-          { label: "Username", name: "username" },
-          { label: "Email", name: "email" },
-          { label: "Password", name: "password", type: "password" },
-        ]}
-      >
-        {error && (
-          <Alert
-            variant="danger"
-            message={getErrorMessage(error)}
-            className="w-full"
-          />
-        )}
-      </Form>
+      <Card className="max-w-lg">
+        <Form
+          schema={signUpSchema}
+          defaultValues={{ username: "", email: "", password: "" }}
+          onSubmit={onSubmit}
+          isLoading={isPending}
+          title="Sign Up"
+          fields={[
+            { label: "Username", name: "username" },
+            { label: "Email", name: "email" },
+            { label: "Password", name: "password", type: "password" },
+          ]}
+        >
+          {error && (
+            <Alert
+              variant="danger"
+              message={getErrorMessage(error)}
+              className="w-full"
+            />
+          )}
+        </Form>
+      </Card>
     </CenterDiv>
   )
 }

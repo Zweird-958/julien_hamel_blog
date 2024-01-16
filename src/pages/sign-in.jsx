@@ -1,6 +1,7 @@
 import { singInSchema } from "@/utils/schemas"
 import SessionContext from "@/web/components/SessionContext"
 import Alert from "@/web/components/ui/Alert"
+import Card from "@/web/components/ui/Card"
 import CenterDiv from "@/web/components/ui/CenterDiv"
 import Form from "@/web/components/ui/Form"
 import useMutation from "@/web/hooks/useMutation"
@@ -30,25 +31,27 @@ const SignUp = () => {
 
   return (
     <CenterDiv>
-      <Form
-        schema={singInSchema}
-        isLoading={isPending}
-        defaultValues={{ email: "", password: "" }}
-        onSubmit={onSubmit}
-        title="Sign In"
-        fields={[
-          { label: "Email", name: "email" },
-          { label: "Password", name: "password", type: "password" },
-        ]}
-      >
-        {error && (
-          <Alert
-            variant="danger"
-            message={getErrorMessage(error)}
-            className="w-full"
-          />
-        )}
-      </Form>
+      <Card className="max-w-lg">
+        <Form
+          schema={singInSchema}
+          isLoading={isPending}
+          defaultValues={{ email: "", password: "" }}
+          onSubmit={onSubmit}
+          title="Sign In"
+          fields={[
+            { label: "Email", name: "email" },
+            { label: "Password", name: "password", type: "password" },
+          ]}
+        >
+          {error && (
+            <Alert
+              variant="danger"
+              message={getErrorMessage(error)}
+              className="w-full"
+            />
+          )}
+        </Form>
+      </Card>
     </CenterDiv>
   )
 }
