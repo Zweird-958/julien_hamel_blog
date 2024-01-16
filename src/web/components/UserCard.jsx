@@ -7,7 +7,7 @@ import {
 import Alert from "@/web/components/ui/Alert"
 import Button from "@/web/components/ui/Button"
 import Card from "@/web/components/ui/Card"
-import FormGeneric from "@/web/components/ui/FormGeneric"
+import Form from "@/web/components/ui/Form"
 import getErrorMessage from "@/web/utils/getErrorMessage"
 import { z } from "zod"
 // eslint-disable-next-line max-lines-per-function
@@ -39,7 +39,7 @@ const UserCard = (props) => {
       >
         Delete
       </Button>
-      <FormGeneric
+      <Form
         schema={userSchema}
         defaultValues={{ role: roleId.toString(), id, username, email }}
         onSubmit={onSubmit}
@@ -83,7 +83,7 @@ const UserCard = (props) => {
             Disable
           </Button>
         </div>
-      </FormGeneric>
+      </Form>
     </Card>
   )
 }

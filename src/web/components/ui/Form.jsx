@@ -13,6 +13,7 @@ const Form = (props) => {
     fields = [],
     children,
     isLoading,
+    className,
   } = props
   const { handleSubmit, control } = useForm({
     resolver: zodResolver(schema),
@@ -22,20 +23,25 @@ const Form = (props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="p-4 flex flex-col items-center max-w-sm gap-3 w-full rounded-lg shadow-md bg-card"
+      className={
+        className ??
+        "p-4 flex flex-col items-center max-w-sm gap-3 w-full rounded-lg shadow-md bg-card"
+      }
     >
-      <h1 className="text-2xl font-semibold">{title}</h1>
+      {title && <h1 className="text-2xl font-semibold">{title}</h1>}
       {fields.map((fieldProps) => (
         <FormField key={fieldProps.name} {...fieldProps} control={control} />
       ))}
       {children}
-      <Button
-        isLoading={isLoading}
-        type="submit"
-        className="w-full font-semibold justify-center"
-      >
-        {title}
-      </Button>
+      {title && (
+        <Button
+          isLoading={isLoading}
+          type="submit"
+          className="w-full font-semibold justify-center"
+        >
+          {title}
+        </Button>
+      )}
     </form>
   )
 }

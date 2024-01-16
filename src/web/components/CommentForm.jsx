@@ -3,7 +3,7 @@ import { useSession } from "@/web/components/SessionContext"
 import Alert from "@/web/components/ui/Alert"
 import Button from "@/web/components/ui/Button"
 import Card from "@/web/components/ui/Card"
-import FormGeneric from "@/web/components/ui/FormGeneric"
+import Form from "@/web/components/ui/Form"
 import useMutation from "@/web/hooks/useMutation"
 const CommentForm = (props) => {
   const { postId, onSuccess } = props
@@ -27,7 +27,7 @@ const CommentForm = (props) => {
 
   return (
     <Card>
-      <FormGeneric
+      <Form
         className="flex flex-col gap-2"
         schema={commentSchema}
         defaultValues={{ comment: "" }}
@@ -38,7 +38,7 @@ const CommentForm = (props) => {
         <Button type="submit" className="self-end" isLoading={isPending}>
           Add comment
         </Button>
-      </FormGeneric>
+      </Form>
     </Card>
   )
 }
