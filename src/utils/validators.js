@@ -8,6 +8,14 @@ export const emailValidator = z
 export const passwordValidator = z
   .string()
   .min(8, { message: "Password must be at least 8 characters long" })
+  .refine(
+    (password) =>
+      /(?=.*\p{Lu})(?=.*\p{Ll})(?=.*\d)(?=.*[^\d\p{L}]).*/u.test(password),
+    {
+      message:
+        "Must contain: 1 lower & 1 upper letters, 1 digit and 1 spe. char.",
+    },
+  )
 export const usernameValidator = z
   .string()
   .min(1, { message: "Username is required" })
