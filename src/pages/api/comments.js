@@ -20,7 +20,7 @@ const handler = mw({
       input: { page, postId, authorId },
     }) => {
       const filters = { postId, authorId }
-      let query = CommentModel.query()
+      let query = CommentModel.query().modify("active")
       Object.entries(filters).forEach(([key, value]) => {
         if (value) {
           query = query.where(key, value)
